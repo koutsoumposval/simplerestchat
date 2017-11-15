@@ -1,0 +1,44 @@
+version: "3.3"
+
+volumes:
+  registry_data:
+    driver: local
+
+services:
+  simplerestchat_app:
+    build: .
+    image: localhost:5000/simplerestchat/app:latest
+    networks:
+      - gateway
+      - default
+    env_file: .env
+    volumes:
+      - "./:/var/www"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.backend=simplerestchat-app"
+      - "traefik.frontend.rule=Host:simplerestchat.dev"
+      - "traefik.docker.network=traefik_bridge_gateway"
+
+  proxy:
+    image: traefik
+    networks:
+      - gateway
+    ports:
+      - "80:80"
+      - "8080:8080"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    command: ["traefik", "--web", "--docker",  "--docker.domain=simplerestchat.dev", "--docker.exposedbydefault=false", "--logLevel=DEBUG"]
+
+  registry:
+    image: registry:2
+    ports:
+      - "5000:5000"
+    volumes:
+      - "registry_data:/var/lib/registry"
+
+networks:
+  gateway:
+    external:
+      name: traefik_bridge_gateway
