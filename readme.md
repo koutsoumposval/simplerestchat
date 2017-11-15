@@ -37,7 +37,7 @@ GET api/login?email=user1@demo.com&password=user1pass
 ## Post new message
 A user can post a new message to a specific receiver (another user id).
 ```bash
-# HEADER Authorization : XXXXXXXX
+# Headers/key: Authorization (or HTTP_Authorization) : XXXXXXXX
 POST api/message
 > 200 {"status":"success","result":{}}
 ```
@@ -45,7 +45,7 @@ POST api/message
 ## Retrieve MessagesBySender
 A user can retrieve all its messages from a specific sender (another user id).
 ```bash
-# HEADER Authorization : XXXXXXXX
+# Headers/key: Authorization (or HTTP_Authorization) : XXXXXXXX
 GET api/message/user/1
 > 200 {"status":"success","result":{}}
 ```
