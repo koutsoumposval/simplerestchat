@@ -56,4 +56,10 @@ Tests are located under the `/tests` directory
 vendor/bin/phpunit
 ```
 
+## Teardown
+You can teardown be using the following command:
+```bash
+docker-compose -f docker-compose.local.yml down
+```
+
 [0]: setup.md
