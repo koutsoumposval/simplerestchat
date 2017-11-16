@@ -74,6 +74,10 @@ docker-compose -f docker-compose.local.yml up -d
 touch database/database.sqlite 
 ```
 
+## Configure environment variables
+Create an `.env` file and set your enviroment variables.
+There is an `.env.example` file in order to help you.
+
 ## Migrate the database
 To migrate the database, run the following through the command-line:
 ```bash
