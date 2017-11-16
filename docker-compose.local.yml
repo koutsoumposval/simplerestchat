@@ -5,9 +5,12 @@ volumes:
     driver: local
 
 services:
-  simplerestchat_app:
+  # A frontend application that consumes the API can live here
+  # Exposure of the API can be prevented by traefik configuration
+
+  simplerestchat_api:
     build: .
-    image: localhost:5000/simplerestchat/app:latest
+    image: localhost:5000/simplerestchat/api:latest
     networks:
       - gateway
       - default
@@ -16,7 +19,7 @@ services:
       - "./:/var/www"
     labels:
       - "traefik.enable=true"
-      - "traefik.backend=simplerestchat-app"
+      - "traefik.backend=simplerestchat-api"
       - "traefik.frontend.rule=Host:simplerestchat.dev"
       - "traefik.docker.network=traefik_bridge_gateway"
 
