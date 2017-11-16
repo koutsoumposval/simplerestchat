@@ -77,7 +77,7 @@ touch database/database.sqlite
 ## Migrate the database
 To migrate the database, run the following through the command-line:
 ```bash
-php artisan migrate:install 
+php artisan migrate
 ```
 
 ## Seed the database
