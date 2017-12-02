@@ -16,8 +16,8 @@ $router->get('/', function () use ($router) {
 });
 
 $router->group(['prefix' => 'api/'], function ($router) {
-    $router->get('login/','UserController@authenticate');
-    $router->post('message/','MessageController@store');
-    $router->get('message/user/{sender}', 'MessageController@showBySender');
+    $router->post('login/','UserController@authenticate');
+    $router->post('messages/','MessageController@store');
+    $router->get('users/{sender}/messages', 'MessageController@showBySender');
 });
 

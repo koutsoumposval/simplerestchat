@@ -25,12 +25,14 @@ an pass an Authorisation header
 
 Any attempt for unauthorised access throws JSON Response with 401 status code.
 ```bash
-GET api/message/user/1
+GET api/users/1/messages
 > {"error":"Unauthorized"}
 ```
 A user must login in order to retrieve his api_key
 ```bash
-GET api/login?email=user1@demo.com&password=user1pass
+POST api/login
+email=user1@demo.com
+password=user1pass
 > {"status":"success","api_key":"XXXXXXXX"}
 ```
 
@@ -38,7 +40,7 @@ GET api/login?email=user1@demo.com&password=user1pass
 A user can post a new message to a specific receiver (another user id).
 ```bash
 # Headers/key: Authorization (or HTTP_Authorization) : XXXXXXXX
-POST api/message
+POST api/messages
 > 200 {"status":"success","result":{}}
 ```
 
@@ -46,7 +48,7 @@ POST api/message
 A user can retrieve all its messages from a specific sender (another user id).
 ```bash
 # Headers/key: Authorization (or HTTP_Authorization) : XXXXXXXX
-GET api/message/user/1
+GET api/users/1/messages
 > 200 {"status":"success","result":{}}
 ```
 

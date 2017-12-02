@@ -18,7 +18,7 @@ class UserTest extends TestCase
      */
     public function it_returns_422_for_missing_or_wrong_parameters(array $parameters): void
     {
-        $response = $this->call('GET', 'api/login', $parameters);
+        $response = $this->call('POST', 'api/login', $parameters);
         $this->assertEquals(422, $response->status());
     }
 
@@ -27,7 +27,7 @@ class UserTest extends TestCase
      */
     public function it_returns_401_on_wrong_credentials(): void
     {
-        $response = $this->call('GET', 'api/login', ['email' => 'correct@email.com', 'password' => '123']);
+        $response = $this->call('POST', 'api/login', ['email' => 'correct@email.com', 'password' => '123']);
         $this->assertEquals(401, $response->status());
     }
 
@@ -38,7 +38,7 @@ class UserTest extends TestCase
     {
         $user = factory(User::class)->create(['password' => Hash::make('123')]);
         $this->seeInDatabase('users', ['email' => $user->email]);
-        $response = $this->call('GET', 'api/login', ['email' => $user->email, 'password' => '123']);
+        $response = $this->call('POST', 'api/login', ['email' => $user->email, 'password' => '123']);
         $this->assertEquals(200, $response->status());
         $this->assertArrayHasKey('api_key', json_decode($response->getContent(), true));
     }

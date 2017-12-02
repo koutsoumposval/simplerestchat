@@ -29,7 +29,7 @@ class MessageTest extends TestCase
         parent::setUp();
 
         $this->user = factory(User::class)->create(['password' => Hash::make('123')]);
-        $response = $this->call('GET', 'api/login', ['email' => $this->user->email, 'password' => '123']);
+        $response = $this->call('POST', 'api/login', ['email' => $this->user->email, 'password' => '123']);
         $this->server = [
             'HTTP_Authorization' => json_decode($response->getContent(), true)['api_key']
         ];
@@ -40,10 +40,10 @@ class MessageTest extends TestCase
      */
     public function it_returns_status_401_when_unauthorised(): void
     {
-        $response = $this->call('POST', 'api/message');
+        $response = $this->call('POST', 'api/messages');
         $this->assertEquals(401, $response->status());
 
-        $response = $this->call('GET', 'api/message/user/1');
+        $response = $this->call('GET', 'api/users/1/messages');
         $this->assertEquals(401, $response->status());
     }
 
@@ -54,7 +54,7 @@ class MessageTest extends TestCase
      */
     public function it_returns_status_422_if_parameters_missing_when_storing_a_message(array $parameters): void
     {
-        $response = $this->call('POST', 'api/message', $parameters, [], [], $this->server);
+        $response = $this->call('POST', 'api/messages', $parameters, [], [], $this->server);
         $this->assertEquals(422, $response->status());
     }
 
@@ -65,7 +65,7 @@ class MessageTest extends TestCase
     {
         $response = $this->call(
             'POST',
-            'api/message',
+            'api/messages',
             ['message' => 'msg', 'receiver_id' => $this->user->id],
             [],
             [],
@@ -83,7 +83,7 @@ class MessageTest extends TestCase
     {
         $this->call(
             'POST',
-            'api/message',
+            'api/messages',
             ['message' => 'msg', 'receiver_id' => $this->user->id],
             [],
             [],
@@ -93,7 +93,7 @@ class MessageTest extends TestCase
 
         $response = $this->call(
             'GET',
-            sprintf('api/message/user/%s', (string)$this->user->id),
+            sprintf('api/users/%s/messages', (string)$this->user->id),
             [],
             [],
             [],
